@@ -20,7 +20,7 @@ export const metadata = {
 const font = Nunito({ 
   subsets: ['latin'], 
 });
-
+// export const dynamic = 'force-dynamic'
 export default async function RootLayout({
   children,
 }: {
