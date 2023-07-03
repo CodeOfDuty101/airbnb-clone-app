@@ -1,49 +1,47 @@
-import EmptyState from '../components/EmptyState';
-import ClientOnly from '../components/ClientOnly';
 
-import getCurrentUser from '@/app/actions/getCurrentUser';
-import getReservations from '../actions/getReservations';
+import EmptyState from "@/app/components/EmptyState";
+import ClientOnly from "@/app/components/ClientOnly";
 
-import React from 'react'
-import ReservationsClient from './ReservationsClient';
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import getReservations from "@/app/actions/getReservations";
+
+import TripsClient from "./ReservationsClient";
 
 const ReservationsPage = async () => {
-    const currentUser = await getCurrentUser();
+  const currentUser = await getCurrentUser();
 
-    if (!currentUser) {
-        return (
-            <ClientOnly>
-                <EmptyState 
-                    title="Unauthorized"
-                    subtitle="Please login"
-                />
-            </ClientOnly>
-        );
-    }
-
-    const reservations = await getReservations({
-        authorId: currentUser.id
-    });
-
-    if (reservations.length === 0) {
-        return (
-            <ClientOnly>
-                <EmptyState 
-                    title="No Reservations found"
-                    subtitle="Looks like your have no reservations on your property"
-                />
-            </ClientOnly>
-        )
-    }
-
+  if (!currentUser) {
     return (
-        <ClientOnly>
-            <ReservationsClient 
-                reservations={reservations}
-                currentUser={currentUser}
-            />
-        </ClientOnly>
+      <ClientOnly> 
+        <EmptyState
+          title="Unauthorized"
+          subtitle="Please login"
+        />
+      </ClientOnly>
     )
-};
+  }
 
+  const reservations = await getReservations({ authorId: currentUser.id });
+
+  if (reservations.length === 0) {
+    return (
+      <ClientOnly>
+        <EmptyState
+          title="No reservations found"
+          subtitle="Looks like you have no reservations on your properties."
+        />
+      </ClientOnly>
+    );
+  }
+
+  return (
+    <ClientOnly>
+      <TripsClient
+        reservations={reservations}
+        currentUser={currentUser}
+      />
+    </ClientOnly>
+  );
+}
+ 
 export default ReservationsPage;
