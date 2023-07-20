@@ -16,4 +16,4 @@ const ModalsProvider = () => {
    );
 }
  
-export default ModalsProvider;
+export default ModalsProvider;  
